@@ -27,6 +27,10 @@ function checkMDS {
 	fi
 }
 
+function smartctlallnodes {
+	for Q in $(df -h | awk '{print $1}'); do echo $Q; smartctl -a $Q; done | egrep '/dev|SMART overall-health self-assessment test result|Reallocated_Sector_Ct|Current_Pending_Sector|Offline_Uncorrectable'
+}
+
 checkMDS
 
 exit
