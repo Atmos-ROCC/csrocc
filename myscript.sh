@@ -36,3 +36,13 @@ exit
 # Automate check memory usage using "top -n 1 -b | head", 
 #   awk relevent values and highlight any CPU% or MEM over threshold.
 # 
+
+
+# Check Gen of node; check ratio 
+# nummds = `mount | grep mauimds | wc -l`
+# numss = `mount | grep atmos | wc -l`
+# if Gen3
+# 	if [[nummds != 12 || numss != 48]];
+#		echo "Disk missing!"
+#	fi
+# fi
