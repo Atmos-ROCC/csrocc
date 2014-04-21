@@ -1,6 +1,6 @@
 # Written by Daniel Kolkena
 
-version=0.1
+version=0.2
 
 # Color variables, courtesy of Kollin
 black='\E[30m'
