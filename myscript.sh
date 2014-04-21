@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # Written by Daniel Kolkena
 
 version=0.1
@@ -50,3 +48,5 @@ exit
 #		echo "Disk missing!"
 #	fi
 # fi
+
+#Test add from home machine
