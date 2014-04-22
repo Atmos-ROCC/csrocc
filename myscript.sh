@@ -1,8 +1,11 @@
+<<<<<<< HEAD
 #!/bin/sh
 
+=======
+>>>>>>> 21557c5cc9d394d973c88e242dbb7b33e3dcbdc5
 # Written by Daniel Kolkena
 
-version=0.1
+version=0.2
 
 # Color variables, courtesy of Kollin
 black='\E[30m'
@@ -50,3 +53,5 @@ exit
 #		echo "Disk missing!"
 #	fi
 # fi
+
+#Test add from home machine
