@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 #!/bin/sh
 
-=======
->>>>>>> 21557c5cc9d394d973c88e242dbb7b33e3dcbdc5
 # Written by Daniel Kolkena
 
 version=0.2
@@ -34,14 +31,21 @@ function smartctlallnodes {
 	for Q in $(df -h | awk '{print $1}'); do echo $Q; smartctl -a $Q; done | egrep '/dev|SMART overall-health self-assessment test result|Reallocated_Sector_Ct|Current_Pending_Sector|Offline_Uncorrectable'
 }
 
-checkMDS
+
+# Automate check memory usage using "top -n 1 -b | head", 
+#   awk relevent values and highlight any CPU% or MEM over threshold.
+function checkMem {
+	top -n 1 -b | head >> topoutput
+
+}
+
+
 
 exit
 
 
 # To do:
-# Automate check memory usage using "top -n 1 -b | head", 
-#   awk relevent values and highlight any CPU% or MEM over threshold.
+
 # 
 
 
@@ -53,5 +57,3 @@ exit
 #		echo "Disk missing!"
 #	fi
 # fi
-
-#Test add from home machine
