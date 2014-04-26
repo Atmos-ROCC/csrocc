@@ -1,8 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 
 # Written by Daniel Kolkena
 
-version=0.2
+version=0.3
 
 # Color variables, courtesy of Kollin
 black='\E[30m'
@@ -35,9 +35,20 @@ function smartctlallnodes {
 # Automate check memory usage using "top -n 1 -b | head", 
 #   awk relevent values and highlight any CPU% or MEM over threshold.
 function checkMem {
-	top -n 1 -b | head >> topoutput
+
+	# Collecting data
+	top -n 1 -b | head -5 >> topsummary.out # top summary
+	ps -e -o pmem= -o pcpu= -o pid= -o comm= | sort -rn -k 1 | head -n5 >> topmem.out # top 5 MEM
+	ps -e -o pmem= -o pcpu= -o pid= -o comm= | sort -rn -k 2 | head -n5 >> topcpu.out # top 5 CPU%
+
+	# Echo out data
+
 
 }
+
+
+# Clean up all temp files
+
 
 
 
@@ -46,13 +57,12 @@ exit
 
 # To do:
 
-# 
-
+# echo "MDS: `mount | grep atmos | wc -l` SS: `mount | grep mauiss | wc -l` Ratio: `grep -i 'ratio' /etc/maui/node.cfg`"
 
 # Check Gen of node; check ratio 
-# nummds = `mount | grep mauimds | wc -l`
-# numss = `mount | grep atmos | wc -l`
-# if Gen3
+# nummds=`mount | grep mauimds | wc -l`
+# numss=`mount | grep atmos | wc -l`
+# if [[Gen3 = true]]
 # 	if [[nummds != 12 || numss != 48]];
 #		echo "Disk missing!"
 #	fi
