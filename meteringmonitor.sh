@@ -1,44 +1,30 @@
 #!/bin/bash
 # Metering Log Monitor
-version=0.9
+version=1.0
 
 newprev=$(hadoop fs -ls /meteringlogs/new/ | wc -l)
 procprev=$(hadoop fs -ls /meteringlogs/processing/ | wc -l)
 
-while [ true ]
+while true
 do	
 	new=$(hadoop fs -ls /meteringlogs/new/ | wc -l)
 	proc=$(hadoop fs -ls /meteringlogs/processing/ | wc -l)
-	
-	if [[ $new -lt $newprev ]]; 
-		then
-			newdiff="-$(newprev - new)"
-	elif [[ $new -gt $newprev ]];
-		then
-			newdiff="+$(new - newprev)"
-		else
-			newdiff="+0"
-	fi
-
-	if [[ $proc -lt $procprev ]]; 
-		then
-			procdiff="-$(procprev - proc)"
-	elif [[ $proc -gt $procprev ]];
-		then
-			procdiff="+$(proc - procprev)"
-		else
-			procdiff="+0"
-	fi
 
 	clear
-	echo "$new ($newdiff)"
-	echo "$proc ($procdiff)"
+	printf "Metering Logs:\n"
+	printf "New:\t\t%d\t(%+d)\n" "$new" "$((new-newprev))"
+	printf "Processing:\t%d\t(%+d)\n\n" "$proc" "$((proc-procprev))"
+
 	/opt/cloudcommon/flume/bin/flume shell -c localhost -e getnodestatus | grep -v ACTIVE
 	hadoop dfsadmin -report | grep Datanodes 
 	hadoop dfsadmin -report | grep Decommission
 	
+	printf "\nCurrent tail of map_reduce_output.log:\n"
+	printf "================================================================================\n"
+	tail -5 /opt/cloudcommon/metering/logs/map_reduce_output.log
+	printf "================================================================================\n"
+	
 	newprev=$new
 	procprev=$proc
-	sleep 10
-
+	sleep 5m
 done
