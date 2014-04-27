@@ -1,11 +1,14 @@
 #!/bin/bash
 # Metering Log Monitor
+# Written by Daniel Kolkena
+
 version=1.0
 
 newprev=$(hadoop fs -ls /meteringlogs/new/ | wc -l)
 procprev=$(hadoop fs -ls /meteringlogs/processing/ | wc -l)
+i=0 # Counter
 
-while true
+while [[ $i -le 144 ]] # Will run a max of 144 iterations of 5 minutes, or 12 hours
 do	
 	new=$(hadoop fs -ls /meteringlogs/new/ | wc -l)
 	proc=$(hadoop fs -ls /meteringlogs/processing/ | wc -l)
@@ -19,12 +22,22 @@ do
 	hadoop dfsadmin -report | grep Datanodes 
 	hadoop dfsadmin -report | grep Decommission
 	
+	printf "\nCurrent Mapreduce PIDs:\n"
+	printf "================================================================================\n"
+	ps -e -o pid= -o comm= -o args | grep mapreduce | grep -v grep | cut -c -80
+	printf "================================================================================\n"
+
 	printf "\nCurrent tail of map_reduce_output.log:\n"
 	printf "================================================================================\n"
 	tail -5 /opt/cloudcommon/metering/logs/map_reduce_output.log
 	printf "================================================================================\n"
-	
+	echo "[Hit CTRL+C to end]"
+
 	newprev=$new
 	procprev=$proc
-	sleep 5m
+	i=$(( $i + 1 ))
+	sleep 5m # Refreshes every 5 minutes.
 done
+
+echo "Exiting after 12 hours."
+exit 0
