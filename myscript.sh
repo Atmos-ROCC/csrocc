@@ -1,8 +1,7 @@
 #!/bin/bash
-
 # Written by Daniel Kolkena
 
-version=0.3
+version=0.3.1
 
 # Color variables, courtesy of Kollin
 black='\E[30m'
@@ -13,6 +12,16 @@ blue='\E[34m'
 magenta='\E[35m'
 cyan='\E[36m'
 white='\E[37m'
+
+#Memory thresholds
+critical=2097152 #Thresholds are available in /etc/atmos_monitor/monitor_policy.conf
+
+#Help message
+if [[ "$1" == "-h" ]] || [[ "$1" == "--help"]];
+	then
+		echo "" #Summary of program
+fi
+
 
 # Scripted MDS check 
 function checkMDS {
@@ -41,18 +50,81 @@ function checkMem {
 	ps -e -o pmem= -o pcpu= -o pid= -o comm= | sort -rn -k 1 | head -n5 >> topmem.out # top 5 MEM
 	ps -e -o pmem= -o pcpu= -o pid= -o comm= | sort -rn -k 2 | head -n5 >> topcpu.out # top 5 CPU%
 
-	# Echo out data
+	# Run checks on the following utilization fields from topsummary.out
 
+	# [Metric CPU Utilization]
+	# [Metric Total Memory Utilization]
+	# [Metric Physical Memory Utilization]
+	# [Metric Swap Memory Utilization]
+
+	# Other possible tests
+
+	# [Metric Atmos Job Service Memory Usage]
+	# [Metric Atmos Storage Service Proxy Memory Usage]
+	# [Metric Atmos Consistency Checker Memory Usage]
+	# [Metric Atmos Storage Service Memory Usage]
+	# [Metric Atmos Authentication Service Memory Usage]
+	# [Metric Atmos Metadata Location Service Memory Usage]
+	# [Metric Atmos Resource Management Service Memory Usage]
+	# [Metric Atmos Filesystem Service Memory Usage]
+	# [Metric Atmos Cluster Manager Memory Usage]
+	# [Metric Network Filesystem Memory Usage]
+	# [Metric Apache Server Memory Usage]
+	# [Metric Mongrel Server Memory Usage]
+	# [Metric Samba Server Memory Usage]
+	# [Metric Ganglia Memory Usage]
+	# [Metric Event Manager Memory Usage]
+	# [Metric Monitor Engine Memory Usage]
+	# [Metric Maui CAS Memory Usage]
+	# [Metric NTP Memory Usage]
+	# [Metric ClasS Memory Usage]
+	# [Metric Snmptrapd Memory Usage]
+	# [Metric snmpd Memory Usage]
+	# [Metric dhcpd Memory Usage]
+	# [Metric commonlogd Memory Usage]
+	# [Metric dataeng Memory Usage]
+	# [Metric Atmos Node Monitor Memory Usage]
+
+	# List of services - emc298107
+	# mauiss
+	# mauirms
+	# mauimds
+	# mauimdls
+	# mauijs
+	# mauifs
+	# mauipfs
+	# mauicc
+	# mauiauthsrv
+	# gmond
+	# qpidd
+	# ssprozy
+	# mauicaas
+	# spread
+	# mongrel
+	# gmetad
+	# apache2
+	# gmondproxy
+	# mauisnmp
 
 }
 
 
 # Clean up all temp files
 
-
-
-
 exit
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # To do:
