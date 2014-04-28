@@ -38,8 +38,8 @@ do
 	printf "================================================================================\n"
 
 	printf "\nCurrent tail of map_reduce_output.log:\n"
-	printf "\n================================================================================\n"
-	tail -5 /opt/cloudcommon/metering/logs/map_reduce_output.log
+	printf "================================================================================\n"
+	tail -5 /opt/cloudcommon/metering/logs/map_reduce_output.log | cut -c -80
 	printf "================================================================================\n"
 	echo "[Hit CTRL+C to end]"
 
