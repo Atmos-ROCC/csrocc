@@ -8,3 +8,6 @@ AutoHotKey.ahk:
 	
 myscript.sh:
 	WIP basic bash script, to hopefully automate several of the troubleshooting steps most commonly used in diagnosing issues.
+
+meteringmonitor.sh:
+	Monitoring script for run_map_reduce.sh to monitor progress.
