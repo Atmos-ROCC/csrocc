@@ -18,7 +18,7 @@ do
 	proc=$(hadoop fs -ls /meteringlogs/processing/ | wc -l)
 
 	clear
-	echo $(date)
+	printf "$(date)\t\t\t[%s]\n" "Current refresh is set to $t."
 	printf "Metering Logs:\n"
 	printf "New:\t\t%d\t(%+d)\n" "$new" "$((new-newprev))"
 	printf "Processing:\t%d\t(%+d)\n\n" "$proc" "$((proc-procprev))"
