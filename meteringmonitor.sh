@@ -2,17 +2,17 @@
 # Metering Log Monitor
 # Written by Daniel Kolkena
 
-version=1.2
+version=1.2.1
 
 newprev=$(hadoop fs -ls /meteringlogs/new/ | wc -l)
 procprev=$(hadoop fs -ls /meteringlogs/processing/ | wc -l)
 i=0 		# Iteration counter
-t="5m" 		# Number of minutes between refreshing
+t="5m" 		# Refresh increment: s=seconds, m=minutes, h=hours
 max=144 	# Number of loops before the script ends
 a=0			# Alert counter
 amax=12		# Number of loops before alert procs 
 
-while [[ $i -le $max ]] # Will run a max of 144 iterations of 5 minutes, or 12 hours
+while [[ $i -le $max ]] # Default: will run a max of 144 iterations of 5 minutes, or 12 hours
 do	
 	new=$(hadoop fs -ls /meteringlogs/new/ | wc -l)
 	proc=$(hadoop fs -ls /meteringlogs/processing/ | wc -l)
@@ -35,7 +35,7 @@ do
 	# for pid in $(ps -e -o pid= -o stat= -o comm= -o args | grep mapreduce | grep -v grep | awk '{print $1}')
 	# 	do 
 	# 		printf "$pid\t"; cat /proc/$pid/status | grep State
-	# 	done					# 4/28 - Commented out until I can figure out what fields are useful in /proc/*/status
+	# 	done					# Commented out until I can figure out what fields are useful in /proc/*/status
 	printf "================================================================================\n"
 
 	printf "\nCurrent tail of map_reduce_output.log:\n"
@@ -65,7 +65,7 @@ do
 	newprev=$new
 	procprev=$proc
 	i=$(( i + 1 ))
-	sleep $t # Refreshes every 5 minutes.
+	sleep $t # Default: refreshes every 5 minutes.
 done
 
 echo "Exiting after 12 hours."
