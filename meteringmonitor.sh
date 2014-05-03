@@ -2,7 +2,7 @@
 # Metering Log Monitor
 # Written by Daniel Kolkena
 
-version=1.3.2
+version=1.3.3
 
 MAPLOG="/opt/cloudcommon/metering/logs/map_reduce_output.log"
 
@@ -56,7 +56,7 @@ function showLogTail()
 function showAlert() 
 {
 	pids=$(for pid in $(ps -e -o pid= -o stat= -o comm= -o args | grep mapreduce | grep -v grep | awk '{print $1}'); do printf "$pid "; done;)
-	printf "\nAlert! The number of logs in /new has not gone down in 1 hour,"
+	printf "\nAlert! The number of logs in /new has not gone down in >= 1 hour,"
 	printf "\nand the map_reduce_output.log hasn't moved in that time either."
 	printf "\nConsider running \"kill -9 $pids\b\" on the metering node.\n\n"
 }
@@ -66,7 +66,7 @@ function writeToLog()
 	echo "$(date): " $new >> monitor.log # Writing output to logfile
 }
 
-while [[ $i -le $max ]] # Default: will run a max of 144 iterations of 5 minutes, or 12 hours
+while [[ $i -le $max ]]; # Default: will run a max of 144 iterations of 5 minutes, or 12 hours
 do	
 	new=$(hadoop fs -ls /meteringlogs/new/ | wc -l)
 	proc=$(hadoop fs -ls /meteringlogs/processing/ | wc -l)
@@ -80,7 +80,7 @@ do
 	showLogTail
 
 	# Alert timer counter
-	if [[ $((new-newprev)) -lt 0 ]] && [[ "$logtailprev" != "$logtail" ]]
+	if [[ $((new-newprev)) -lt 0 && "$logtailprev" != "$logtail" ]];
 		then 
 			a=0					# If /new falls or the map_reduce_log has changed, reset counter
 		else
