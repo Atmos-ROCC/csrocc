@@ -17,7 +17,7 @@ white='\E[37m'
 critical=2097152 #Thresholds are available in /etc/atmos_monitor/monitor_policy.conf
 
 #Help message
-if [[ "$1" == "-h" ]] || [[ "$1" == "--help"]];
+if [[ "$1" == "-h" || "$1" == "--help"]];
 	then
 		echo "" #Summary of program
 fi
@@ -47,8 +47,16 @@ function checkMem {
 
 	# Collecting data
 	top -n 1 -b | head -5 >> topsummary.out # top summary
-	ps -e -o pmem= -o pcpu= -o pid= -o comm= | sort -rn -k 1 | head -n5 >> topmem.out # top 5 MEM
+	ps -e -o pmem= -o pcpu= -o pid= -o comm= | sort -rn -k 1 | head -n5 >> topmem.out # top 5 MEM [Nothing over 2.4 GB memory]
 	ps -e -o pmem= -o pcpu= -o pid= -o comm= | sort -rn -k 2 | head -n5 >> topcpu.out # top 5 CPU%
+
+	# You can trace the offending pid as well, or even dump it into a core for engineering analysis
+
+	cat /proc/meminfo
+
+	# Free memory should be about 200 MB under normal load
+	# iostat [-x]
+	# uptime [based on memory, iostat]
 
 	# Run checks on the following utilization fields from topsummary.out
 
@@ -109,6 +117,14 @@ function checkMem {
 }
 
 
+function checkDiskIO { # /pacemaker/cpu_usage.py for some reason
+	
+	# iostat, grep %iowait, alert for anything >60%
+
+} 
+
+
+
 # Clean up all temp files
 
 exit
@@ -139,3 +155,5 @@ exit
 #		echo "Disk missing!"
 #	fi
 # fi
+#
+# Mine /usr/local/xdoctor/pacemaker for ideas
