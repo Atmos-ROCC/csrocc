@@ -1,0 +1,26 @@
+
+# Single line
+echo""; echo "MDS Disks Online: $(df -h | grep atmos | wc -l)"; echo " SS Disks Online: $(df -h | grep ss | wc -l)"; echo "MDS Nodes down:   $(rmsview -l mauimds | grep -v up | wc -l)"; echo " SS Nodes down:   $(rmsview -l mauiss | grep -v up | wc -l)"; NODESTATE=$(top_view.py -n local | grep state | awk -F "\"" '{print $4}'); echo "Local node state: $NODESTATE"; if [[ $NODESTATE != "Operational" ]]; then echo "check_node_state.py output: "; check_node_state.py -u; fi; unset NODESTATE; chmod +x /var/service/show_offline_disks.sh; BADDISKS=$(/var/service/./show_offline_disks.sh -l); if [[ "$BADDISKS" == "" ]]; then echo "No disks are in recovery."; else echo "The following disks are in recovery: "; echo "$BADDISKS"; fi; unset BADDISKS; 
+
+
+
+# Formatted
+echo "MDS Disks Online: $(df -h | grep atmos | wc -l)"; 
+echo " SS Disks Online: $(df -h | grep ss | wc -l)"; 
+echo "MDS Nodes down:   $(rmsview -l mauimds | grep -v up | wc -l)"; 
+echo " SS Nodes down:   $(rmsview -l mauiss | grep -v up | wc -l)"; 
+NODESTATE=$(top_view.py -n local | grep state | awk -F "\"" '{print $4}'); 
+echo "Local node state: $NODESTATE"; 
+if [[ $NODESTATE != "Operational" ]]; 
+	then echo "check_node_state.py output: "; 
+	check_node_state.py -u; 
+fi; 
+unset NODESTATE; 
+chmod +x /var/service/show_offline_disks.sh; 
+BADDISKS=$(/var/service/./show_offline_disks.sh -l); 
+if [[ "$BADDISKS" == "" ]]; 
+	then echo "No disks are in recovery."; 
+else echo "The following disks are in recovery: "; 
+	echo "$BADDISKS"; 
+fi; 
+unset BADDISKS; 

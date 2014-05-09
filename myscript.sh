@@ -1,7 +1,7 @@
 #!/bin/bash
 # Written by Daniel Kolkena
 
-version=0.3.1
+version=0.3.2
 
 # Color variables, courtesy of Kollin
 black='\E[30m'
@@ -36,7 +36,7 @@ function checkMDS {
 	fi
 }
 
-function smartctlallnodes {
+function smartctlalldisks {
 	for Q in $(df -h | awk '{print $1}'); do echo $Q; smartctl -a $Q; done | egrep '/dev|SMART overall-health self-assessment test result|Reallocated_Sector_Ct|Current_Pending_Sector|Offline_Uncorrectable'
 }
 
