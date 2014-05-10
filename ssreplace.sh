@@ -2,19 +2,23 @@
 # Written by Daniel Kolkena, based on work from Bret Miller
 # SS Disk Proactive Replacement Script
 
-version=0.4 # Draft, commented out for testing purposes
+version=0.4.1 # Draft, commented out for testing purposes
+
+#invaliduuid="/^\{?[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}‌​\}?$/"
 
 # Data Input
 echo "SS Disk Replacement Script"
-read -p "Target Host name?: " target_host_name
+read -p "Target Host name? (Press Enter to use current host): " target_host_name 		# Add regex tests here to verify sanitized input.
+	if [[ "$target_host_name" = "" ]]; then target_host_name=$HOSTNAME; fi				# Pressing Enter will just use the current host
 read -p "FSUUID?: " fsuuid
+	#if [[ $fsuuid = $invaliduuid ]]; then echo ""; fi 																
 echo ""
 
 # Finding other variables
 atversion=$(rpm -qa atmos | cut -c 7-11)
 master=$(ssh "$target_host_name" show_master.py | grep System | awk -F " " '{print $3}')
 path=$(df -h | grep "$fsuuid" | awk '{print $1}')
-diskidx=$(ls -l /var/local/maui/atmos-diskman/INDEX/ | grep "$fsuuid" | cut -d : -f2 | cut -d . -f1)
+diskidx=$(ls /var/local/maui/atmos-diskman/INDEX/ | grep "$fsuuid" | cut -d : -f2 | cut -d . -f1)
 nodeuuid=$(psql -U postgres rmg.db -h "$master" -c "select uuid from nodes where hostname='"$target_host_name"'" | awk 'NR==3' | cut -c 2-37)
 
 # Verification Step
@@ -44,3 +48,11 @@ else
 fi
 
 exit 0
+
+
+# The following code will not run, as it's after the exit 0 call
+
+# Testing regex verification for UUIDs ## The following do not work... yet #
+validuuid2="[[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}]"
+validuuid="/^\{?[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}‌​\}?$/"; 
+read -p "FSUUID?: " fsuuid; if [[ $fsuuid == [/^${\{?[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}‌​\}?}] ]]; then echo "Valid FSUUID"; else echo "Invalid FSUUID"; fi; unset fsuuid;
