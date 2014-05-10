@@ -1,7 +1,8 @@
 #!/bin/bash
+# Written by Daniel Kolkena, based on work from Bret Miller
 # SS Disk Proactive Replacement Script
 
-version=0.3 # Third Draft, commented out for testing purposes
+version=0.4 # Draft, commented out for testing purposes
 
 # Data Input
 echo "SS Disk Replacement Script"
@@ -33,7 +34,8 @@ if [[ $ans = [Yy] ]];
 	# Here's where the magic happens
 	# mauirexec "mauisvcmgr -s mauicc -c trigger_cc_rcvrtask -a 'queryStr=\"DISKID-$target_host_name:$diskidx\",act=ConsCheck,taskId=$target_host_name:$diskidx'" 
 	# mauirexec "mauisvcmgr -s mauicc -c query_cc_rcvrtask -a 'taskId=$target_host_name:$diskidx' | grep status="
-	# psql -U postgres rmg.db -h $MASTER -c "select uuid from disks where nodeuuid='$nodeuuid' and devpath='$path'"
+	# psql -U postgres rmg.db -h $master -c "select uuid from disks where nodeuuid='$nodeuuid' and devpath='$path'"
+	# echo "Proactive disk replacement begun."		# To do: Test disk replacement logic, add error handling for unsuccessful replacement
 elif [[ $ans = [Nn] ]];
 	then
 	echo "Disk replacement cancelled."
