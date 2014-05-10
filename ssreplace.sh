@@ -42,7 +42,3 @@ else
 fi
 
 exit 0
-
-
-ls -l /var/local/maui/atmos-diskman/INDEX/ | grep 7538f32a-da3b-4996-b8e3-6f5323ad8bab | cut -d : -f2 | cut -d . -f1
-df -h | grep 7538f32a-da3b-4996-b8e3-6f5323ad8bab | awk '{print $1}'
