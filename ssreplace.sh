@@ -1,7 +1,7 @@
 #!/bin/bash
 # SS Disk Proactive Replacement Script
 
-version=0.2 # Second Draft, commented out for testing purposes
+version=0.3 # Third Draft, commented out for testing purposes
 
 # Data Input
 echo "SS Disk Replacement Script"
@@ -11,10 +11,10 @@ echo ""
 
 # Finding other variables
 atversion=$(rpm -qa atmos | cut -c 7-11)
-master=$(ssh $target_host_name show_master.py | grep System | awk -F " " '{print $3}')
-path=$(df -h | grep $fsuuid | awk '{print $1}')
-diskidx=$(ls -l /var/local/maui/atmos-diskman/INDEX/ | grep $fsuuid | cut -d : -f2 | cut -d . -f1)
-nodeuuid=$(psql -U postgres rmg.db -h $master -c "select uuid from nodes where hostname='$target_host_name'" | awk 'NR==3' | cut -c 2-37)
+master=$(ssh "$target_host_name" show_master.py | grep System | awk -F " " '{print $3}')
+path=$(df -h | grep "$fsuuid" | awk '{print $1}')
+diskidx=$(ls -l /var/local/maui/atmos-diskman/INDEX/ | grep "$fsuuid" | cut -d : -f2 | cut -d . -f1)
+nodeuuid=$(psql -U postgres rmg.db -h "$master" -c "select uuid from nodes where hostname='"$target_host_name"'" | awk 'NR==3' | cut -c 2-37)
 
 # Verification Step
 echo "Atmos version is: $atversion"
