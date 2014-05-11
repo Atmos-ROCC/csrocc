@@ -2,7 +2,7 @@
 # Metering Log Monitor
 # Written by Daniel Kolkena
 
-version=1.3.3
+version=1.3.4
 
 MAPLOG="/opt/cloudcommon/metering/logs/map_reduce_output.log"
 
