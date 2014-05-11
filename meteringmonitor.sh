@@ -80,7 +80,7 @@ do
 	showLogTail
 
 	# Alert timer counter
-	if [[ $((new-newprev)) -lt 0 && "$logtailprev" != "$logtail" ]];
+	if [[ $((new-newprev)) -lt 0 || "$logtailprev" != "$logtail" ]];
 		then 
 			a=0					# If /new falls or the map_reduce_log has changed, reset counter
 		else
