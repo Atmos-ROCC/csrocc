@@ -11,7 +11,7 @@ echo "SS Disk Replacement Script"
 read -p "Target Host name? (Press Enter to use current host): " target_host_name 		# Add regex tests here to verify sanitized input.
 	if [[ "$target_host_name" = "" ]]; then target_host_name=$HOSTNAME; fi				# Pressing Enter will just use the current host
 read -p "FSUUID?: " fsuuid
-	#if [[ $fsuuid = $invaliduuid ]]; then echo ""; fi 																
+	#if [[ $fsuuid = $invaliduuid ]]; then echo "Invalid FSUUID. Exiting."; exit 1; fi 																
 echo ""
 
 # Finding other variables
@@ -39,12 +39,16 @@ if [[ $ans = [Yy] ]];
 	# mauirexec "mauisvcmgr -s mauicc -c trigger_cc_rcvrtask -a 'queryStr=\"DISKID-$target_host_name:$diskidx\",act=ConsCheck,taskId=$target_host_name:$diskidx'" 
 	# mauirexec "mauisvcmgr -s mauicc -c query_cc_rcvrtask -a 'taskId=$target_host_name:$diskidx' | grep status="
 	# psql -U postgres rmg.db -h $master -c "select uuid from disks where nodeuuid='$nodeuuid' and devpath='$path'"
-	# echo "Proactive disk replacement begun."		# To do: Test disk replacement logic, add error handling for unsuccessful replacement
+	# Validate success here
+	# if invalid; echo "Disk replacement unsuccessful"; exit 1; 
+	# else echo "Proactive disk replacement begun."		# To do: Test disk replacement logic, add error handling for unsuccessful replacement
+	# fi
 elif [[ $ans = [Nn] ]];
 	then
 	echo "Disk replacement cancelled."
 else
 	echo "Response was not 'y' or 'n'. Exiting."
+	exit 1
 fi
 
 exit 0
@@ -54,5 +58,4 @@ exit 0
 
 # Testing regex verification for UUIDs ## The following do not work... yet #
 validuuid2="[[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}]"
-validuuid="/^\{?[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}‌​\}?$/"; 
-read -p "FSUUID?: " fsuuid; if [[ $fsuuid == [/^${\{?[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}‌​\}?}] ]]; then echo "Valid FSUUID"; else echo "Invalid FSUUID"; fi; unset fsuuid;
+validuuid="/^\{?[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}‌​\}?$/"; read -p "FSUUID?: " fsuuid; if [[ $fsuuid =~ $validuuid ]]; then echo "Valid FSUUID"; else echo "Invalid FSUUID"; fi; unset fsuuid;
