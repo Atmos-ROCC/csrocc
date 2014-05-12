@@ -56,6 +56,5 @@ exit 0
 
 # The following code will not run, as it's after the exit 0 call
 
-# Testing regex verification for UUIDs ## The following do not work... yet #
-validuuid2="[[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}]"
-validuuid='^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}‌​$'; read -p "FSUUID?: " fsuuid; if [[ $fsuuid =~ $validuuid ]]; then echo "Valid FSUUID"; else echo "Invalid FSUUID"; fi; unset validuuid; unset fsuuid;
+# Regex test works now!!!! Next: Will incorporate into main script.
+validuuid='^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'; read -p "FSUUID?: " fsuuid; if [[ $fsuuid =~ $validuuid ]]; then echo "Valid FSUUID"; else echo "Invalid FSUUID"; fi; unset validuuid; unset fsuuid;
