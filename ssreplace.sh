@@ -58,4 +58,4 @@ exit 0
 
 # Testing regex verification for UUIDs ## The following do not work... yet #
 validuuid2="[[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}]"
-validuuid='^[0-9a-fA-F]\{8\}-[0-9a-fA-F]\{4\}-[0-9a-fA-F]\{4\}-[0-9a-fA-F]\{4\}-[0-9a-fA-F]\{12\}‌​$'; read -p "FSUUID?: " fsuuid; if [[ $fsuuid =~ $validuuid ]]; then echo "Valid FSUUID"; else echo "Invalid FSUUID"; fi; unset fsuuid;
+validuuid='^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}‌​$'; read -p "FSUUID?: " fsuuid; if [[ $fsuuid =~ $validuuid ]]; then echo "Valid FSUUID"; else echo "Invalid FSUUID"; fi; unset fsuuid;
