@@ -1,5 +1,4 @@
-#!/bin/bash
-#Core remover
+
 
 logdir="/var/log/maui"
 
