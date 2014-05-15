@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # objverify.sh
-# Written by Daniel Kolkena, based on Kollin Price's code
+# Written by Daniel Kolkena, based on Kollin Prince's code
 # Verifies object size on each disk.
 # There must be at least 9 replicas to be able to restore. 
 # If there are less than 9, the object is corrupted.
