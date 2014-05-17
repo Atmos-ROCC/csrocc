@@ -47,7 +47,7 @@ function checkMem {
 
 	# Collecting data
 	top -n 1 -b | head -5 >> topsummary.out # top summary
-	ps -e -o pmem= -o pcpu= -o pid= -o comm= | sort -rn -k 1 | head -n5 >> topmem.out # top 5 MEM [Nothing over 2.4 GB memory]
+	ps -e -o pmem= -o pcpu= -o pid= -o comm= | sort -rn -k 1 | head -n5 >> topmem.out # top 5 MEM [Nothing should be over 2.4 GB memory]
 	ps -e -o pmem= -o pcpu= -o pid= -o comm= | sort -rn -k 2 | head -n5 >> topcpu.out # top 5 CPU%
 
 	# You can trace the offending pid as well, or even dump it into a core for engineering analysis
