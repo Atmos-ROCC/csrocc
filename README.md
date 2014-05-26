@@ -21,11 +21,11 @@ Single-line command that takes in a disk serial number and returns the host and 
 Status: **Complete**
 
 Single-line code snippet that automatically checks:
-	- On node:  
-		- The number of MDS disks online  
-		- The number of SS disks online  
-		- The state of the node  
-			Any reason why the node may be degraded via check_node_state.py  
+  - On node:  
+    - The number of MDS disks online  
+    - The number of SS disks online  
+      - The state of the node  
+        Any reason why the node may be degraded via check_node_state.py  
 		- Any disks that may be in recovery  
 	- On RMG:  
 		- The number of MDS nodes offline  
@@ -50,10 +50,10 @@ WIP draft to automatically verify object replica sizes.
 Status: **Incomplete**
 
 WIP multipurpose script to be used for proactive ss disk recoveries.  
-	- Finished:  
-		- Function that takes in a disk FSUUID and triggers CC for the first  part of the recovery process.  
-	- In Progress:  
-		- Command-line argument logic  
-	- To do:  
-		- Function to check progress of CC  
-		- Function to remove disk  
+  - Finished:  
+    - Function that takes in a disk FSUUID and triggers CC for the first  part of the recovery process.  
+    - In Progress:  
+    - Command-line argument logic  
+  - To do:  
+    - Function to check progress of CC  
+    - Function to remove disk 
