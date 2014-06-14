@@ -120,7 +120,7 @@ function checkMem {
 function checkDiskIO { # /pacemaker/cpu_usage.py for some reason
 	
 	# iostat, grep %iowait, alert for anything >60%
-
+	uptime | awk '' # Grab load average... anything >30-40 is suspect
 } 
 
 
