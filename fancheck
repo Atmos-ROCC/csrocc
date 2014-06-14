@@ -1,0 +1,26 @@
+#!/bin/env bash
+# Cooling Fan Error Tests
+
+# Example error:
+# Error detected on DAE 50060480e02f2f3e. Error details: Cooling Fan C#0.
+
+
+
+
+ipmitool sel elist
+ipmitool sdr type Temperature get
+
+# Search logs
+grep -i cooling /var/log/maui/dm.log
+grep –i cooling /var/log/messages
+
+
+
+
+$daedevice
+
+sg_ses /dev/sg3 --index=coo#  (where 0=A#0, 1=B#0 and 2=C#0
+
+$drivepath
+
+smartctl -a /dev/sda | grep Celsius | awk '{print $10}'
