@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+echo; down=$(rmsview -l mauimds | grep -v up | wc -l); if [[ "$down" == 0 ]]; then echo "All MDS nodes initialized."; else echo "MDS nodes down:"; rmsview -l mauimds | grep -v up; fi; unset down; 
