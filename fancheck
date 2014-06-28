@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/bin/bash
 # Cooling Fan Error Tests
 
 # Example error:
@@ -12,8 +12,7 @@ ipmitool sdr type Temperature get
 
 # Search logs
 grep -i cooling /var/log/maui/dm.log
-grep –i cooling /var/log/messages
-
+cat /var/log/messages | grep -i cooling
 
 
 
@@ -24,3 +23,4 @@ sg_ses /dev/sg3 --index=coo#  (where 0=A#0, 1=B#0 and 2=C#0
 $drivepath
 
 smartctl -a /dev/sda | grep Celsius | awk '{print $10}'
+
